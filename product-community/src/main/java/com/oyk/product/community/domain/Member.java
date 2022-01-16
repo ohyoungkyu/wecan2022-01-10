@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
 
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class Member implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,6 +37,22 @@ public class Member implements UserDetails {
     private boolean isAccountNonLocked = true;
     private boolean isCredentialsNonExpired = true;
     private boolean isEnabled = true;
+
+    public static Member createMember(String loginId, String loginPw, String name, String nickname, String email, Role authority) {
+
+        Member member = new Member();
+
+        member.loginId = loginId;
+        member.loginPw = loginPw;
+
+        member.name = name;
+        member.nickname = nickname;
+        member.email = email;
+
+        member.authority = authority;
+
+        return member;
+    }
 
     @Override
     public Collection getAuthorities() {
