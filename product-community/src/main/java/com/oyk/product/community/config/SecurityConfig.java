@@ -7,6 +7,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -14,21 +17,23 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    public void configure(WebSecurity web) throws Exception {
         web.ignoring().mvcMatchers("/css/**", "/js/**","/img/**","/error/**","/lib/**");
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests( authorize -> authorize
 
                         .mvcMatchers(
-                                "/members/join"
+                                "/members/join",
+                                "/members/login"
                         )
                         .anonymous()
                         .mvcMatchers(
-                                "/articles/**"
+                                "/articles/**",
+                                "/"
                         )
                         .permitAll()
                         .mvcMatchers(
@@ -42,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/members/login")
                 .loginProcessingUrl("/doLogin")
+                .loginProcessingUrl("/members/doLogin")
                 .usernameParameter("loginId")
                 .passwordParameter("loginPw")
                 .defaultSuccessUrl("/")

@@ -1,5 +1,6 @@
 package com.oyk.product.community.controller;
 
+import com.oyk.product.community.dto.MemberLoginForm;
 import com.oyk.product.community.dto.MemberSaveForm;
 import com.oyk.product.community.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/members/join")
-    public String showSignup(Model model) {
+    public String showJoin(Model model) {
 
         model.addAttribute("memberSaveForm", new MemberSaveForm());
         return "usr/member/join";
@@ -26,7 +27,7 @@ public class MemberController {
     }
 
     @PostMapping("/members/join")
-    public String doSignup(@Validated MemberSaveForm memberSaveForm, BindingResult bindingResult, Model model) {
+    public String doJoin(@Validated MemberSaveForm memberSaveForm, BindingResult bindingResult, Model model) {
 
         if ( bindingResult.hasErrors() ) {
             return "usr/member/join";
@@ -46,5 +47,13 @@ public class MemberController {
 
         return "redirect:/";
 
+    }
+
+    @GetMapping("/members/login")
+    public String showLogin(Model model){
+
+        model.addAttribute("memberLoginForm", new MemberLoginForm());
+
+        return "usr/member/login";
     }
 }
