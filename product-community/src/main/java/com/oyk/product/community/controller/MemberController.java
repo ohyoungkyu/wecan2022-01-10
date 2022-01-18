@@ -1,7 +1,7 @@
 package com.oyk.product.community.controller;
 
-import com.oyk.product.community.dto.MemberLoginForm;
-import com.oyk.product.community.dto.MemberSaveForm;
+import com.oyk.product.community.dto.member.MemberLoginForm;
+import com.oyk.product.community.dto.member.MemberSaveForm;
 import com.oyk.product.community.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -49,11 +49,13 @@ public class MemberController {
 
     }
 
-    @GetMapping("/members/login")
+    @GetMapping("members/login")
     public String showLogin(Model model){
 
         model.addAttribute("memberLoginForm", new MemberLoginForm());
 
         return "usr/member/login";
+
     }
+
 }

@@ -20,6 +20,7 @@ import java.util.List;
 public class Member implements UserDetails {
 
     @Id
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -29,6 +30,9 @@ public class Member implements UserDetails {
     private String name;
     private String nickname;
     private String email;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<Article> articles = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role authority;

@@ -3,7 +3,7 @@ package com.oyk.product.community.service;
 import com.oyk.product.community.config.Role;
 import com.oyk.product.community.dao.MemberRepository;
 import com.oyk.product.community.domain.Member;
-import com.oyk.product.community.dto.MemberSaveForm;
+import com.oyk.product.community.dto.member.MemberSaveForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -59,5 +61,17 @@ public class MemberService implements UserDetailsService {
         );
 
         memberRepository.save(member);
+    }
+    //로그인 회원아이디를 찾는대 존재않는 회원이면 아래와 같은 로직
+    public Member findByLoginId(String loginId) throws IllegalStateException{
+
+        Optional<Member> memberOptional = memberRepository.findByLoginId(loginId);
+
+        memberOptional.orElseThrow(
+                () -> new IllegalStateException("존재하지 않는 회원입니다.")
+        );
+
+        return memberOptional.get();
+
     }
 }

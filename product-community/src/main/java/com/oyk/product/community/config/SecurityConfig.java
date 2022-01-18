@@ -22,6 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests( authorize -> authorize
@@ -46,7 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .formLogin()
                 .loginPage("/members/login")
-                .loginProcessingUrl("/doLogin")
                 .loginProcessingUrl("/members/doLogin")
                 .usernameParameter("loginId")
                 .passwordParameter("loginPw")

@@ -1,55 +1,57 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>상품커뮤니티</title>
+    <title>회원가입</title>
 </head>
 <body>
-    <div class="container">
+<div layout:fragment="content">
+<div class="container">
 
-        <div class="contents">
+    <div class="contents">
 
-        <div class="join-form">
+        <div class="signup-form">
 
-            <div class="join-title">
+            <div class="signup-title">
                 <h1> 회원가입 </h1>
             </div>
 
             <form action="" th:action="@{~/members/join}" method="POST">
 
                 <div class="form-item">
-                    <span>
+                    <label>
                         아이디
-                    </span>
+                    </label>
                     <input name="loginId" type="text" autocomplete="off" required>
                 </div>
 
                 <div class="form-item">
-                    <span>
+                    <label>
                         비밀번호
-                    </span>
+                    </label>
                     <input name="loginPw" type="password" autocomplete="off" required>
                 </div>
 
                 <div class="form-item">
-                    <span>
+                    <label>
                         이메일
-                    </span>
+                    </label>
                     <input name="email" type="email" autocomplete="off" required>
                 </div>
 
                 <div class="form-item">
-                    <span>
+                    <label>
                         닉네임
-                    </span>
+                    </label>
                     <input name="nickname" type="text" autocomplete="off" required>
                 </div>
 
                 <div class="form-item">
-                    <span>
+                    <label>
                         이름
-                    </span>
+                    </label>
                     <input name="name" type="text" autocomplete="off" required>
                 </div>
 
@@ -61,9 +63,14 @@
                         </button>
                     </a>
                 </div>
+
             </form>
+
         </div>
-        </div>
+
     </div>
+
+</div>
+</div>
 </body>
 </html>

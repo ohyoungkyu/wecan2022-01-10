@@ -1,24 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>제품소개채널</title>
+    <title>상품 커뮤니티</title>
 </head>
 <body>
-<div class="container">
+<div layout:fragment="content">
+<!--<div class="container">
 
-  <div class="contents">
+    <div class="contents">
+        <h1> 상품 커뮤니티 </h1>
 
-    <h1> 상품 커뮤니티 소개 </h1>
+      <hr>
 
-    <hr>
+      <a href="/members/join"> 회원가입으로 </a>
 
-    <a href="/members/join"> 회원가입으로 </a>
 
-      <a href="/members/login"> 로그인으로 </a>
-
-  </div>
-
+        <a href="/members/login"> 로그인으로 </a>
+    </div>-->
 </div>
 </body>
 </html>
