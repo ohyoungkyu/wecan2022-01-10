@@ -20,7 +20,7 @@ public class Article {
     private LocalDateTime regDate = LocalDateTime.now();
     private LocalDateTime updateDate = LocalDateTime.now();
 
-    @ManyToOne(fetch = FetchType.LAZY.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -34,6 +34,7 @@ public class Article {
     }
     // 연관관계 메소드
     public void setMember(Member member){
+
         this.member = member;
         member.getArticles().add(this);
     }

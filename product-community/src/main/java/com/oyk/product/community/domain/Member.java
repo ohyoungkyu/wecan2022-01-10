@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,7 +21,6 @@ import java.util.List;
 public class Member implements UserDetails {
 
     @Id
-    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -30,6 +30,9 @@ public class Member implements UserDetails {
     private String name;
     private String nickname;
     private String email;
+
+    private LocalDateTime regDate = LocalDateTime.now();
+    private LocalDateTime updateDate = LocalDateTime.now();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Article> articles = new ArrayList<>();
@@ -58,10 +61,18 @@ public class Member implements UserDetails {
         return member;
     }
 
-    @Override
-    public Collection getAuthorities() {
+    public void modifyMember(String loginPw, String nickname, String email){
 
-        List authorities = new ArrayList<>();
+        this.loginPw = loginPw;
+        this.nickname = nickname;
+        this.email = email;
+
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(this.authority.getValue()));
 
         return authorities;

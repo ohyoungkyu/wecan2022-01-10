@@ -15,6 +15,7 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
 
+    @Transactional
     public void save(ArticleSaveForm articleSaveForm, Member member){
 
         Article article = Article.createArticle(
@@ -22,6 +23,8 @@ public class ArticleService {
                 articleSaveForm.getBody()
         );
 
+        article.setMember(member);
+        articleRepository.save(article);
     }
 
 }

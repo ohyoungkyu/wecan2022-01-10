@@ -3,6 +3,7 @@ package com.oyk.product.community.service;
 import com.oyk.product.community.config.Role;
 import com.oyk.product.community.dao.MemberRepository;
 import com.oyk.product.community.domain.Member;
+import com.oyk.product.community.dto.member.MemberModifyForm;
 import com.oyk.product.community.dto.member.MemberSaveForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +25,12 @@ public class MemberService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByLoginId(username).get();
     }
-
+    /**
+     * 회원 중복 체크
+     * @param loginId
+     * @param nickname
+     * @param email
+     */
     public void isDuplicateMember(String loginId, String nickname, String email){
 
         if(memberRepository.existsByLoginId(loginId)){
@@ -41,6 +47,10 @@ public class MemberService implements UserDetailsService {
         }
     }
 
+    /**
+     * 회원가입
+     * @param memberSaveForm
+     */
     @Transactional
     public void save(MemberSaveForm memberSaveForm) throws IllegalStateException{
         isDuplicateMember(
@@ -72,6 +82,23 @@ public class MemberService implements UserDetailsService {
         );
 
         return memberOptional.get();
+
+    }
+
+    @Transactional
+    public Long modifyMember(MemberModifyForm memberModifyForm, String loginId) {
+
+        Member findMember = findByLoginId(loginId);
+
+        BCryptPasswordEncoder bCryptPasswordEncoder =  new BCryptPasswordEncoder();
+
+        findMember.modifyMember(
+                bCryptPasswordEncoder.encode(memberModifyForm.getLoginPw()),
+                memberModifyForm.getNickname(),
+                memberModifyForm.getEmail()
+        );
+
+        return findMember.getId();
 
     }
 }

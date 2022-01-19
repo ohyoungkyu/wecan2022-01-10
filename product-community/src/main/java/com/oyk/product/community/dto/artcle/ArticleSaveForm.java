@@ -9,6 +9,7 @@ public class ArticleSaveForm {
 
     @NotBlank
     private String title;
+
     @NotBlank
     private String body;
 
