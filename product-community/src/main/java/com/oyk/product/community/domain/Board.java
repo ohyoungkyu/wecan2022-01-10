@@ -1,11 +1,14 @@
 package com.oyk.product.community.domain;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 public class Board {
 
     @Id

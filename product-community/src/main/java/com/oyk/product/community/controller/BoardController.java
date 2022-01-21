@@ -1,12 +1,14 @@
 package com.oyk.product.community.controller;
 
 import com.oyk.product.community.domain.Board;
+import com.oyk.product.community.dto.board.BoardDTO;
 import com.oyk.product.community.dto.board.BoardSaveForm;
 import com.oyk.product.community.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -46,4 +48,17 @@ public class BoardController {
 
     }
 
+    @GetMapping("/boards/{id}")
+    public  String showBoardDetail(@PathVariable(name = "id")Long id, Model model){
+
+        try {
+            BoardDTO boardDetail = boardService.getBoardDetail(id);
+            model.addAttribute("board", boardDetail);
+        } catch (Exception e){
+            return "redirect:/";
+        }
+
+        return "usr/board/detail";
+
+    }
 }
