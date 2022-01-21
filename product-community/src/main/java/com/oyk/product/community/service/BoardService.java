@@ -5,6 +5,7 @@ import com.oyk.product.community.domain.Article;
 import com.oyk.product.community.domain.Board;
 import com.oyk.product.community.dto.artcle.ArticleListDTO;
 import com.oyk.product.community.dto.board.BoardDTO;
+import com.oyk.product.community.dto.board.BoardModifyForm;
 import com.oyk.product.community.dto.board.BoardSaveForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -65,4 +66,21 @@ public class BoardService {
 
     }
 
+    @Transactional
+    public Long modify(BoardModifyForm boardModifyForm) throws NoSuchElementException{
+
+        Optional<Board> boardOptional = boardRepository.findByName(boardModifyForm.getName());
+
+        boardOptional.orElseThrow(
+                () -> new NoSuchElementException("해당 게시판은 존재하지 않습니다.")
+        );
+
+        Board board = boardOptional.get();
+
+        board.modifyBoard(
+                boardModifyForm.getName(),
+                boardModifyForm.getDetail()
+        );
+        return board.getId();
+    }
 }
