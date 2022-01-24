@@ -1,6 +1,8 @@
 package com.oyk.product.community.controller;
 
+import com.oyk.product.community.domain.Article;
 import com.oyk.product.community.domain.Member;
+import com.oyk.product.community.dto.artcle.ArticleModifyForm;
 import com.oyk.product.community.dto.artcle.ArticleSaveForm;
 import com.oyk.product.community.service.ArticleService;
 import com.oyk.product.community.service.MemberService;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
@@ -54,5 +57,37 @@ public class ArticleController {
         }
 
         return "redirect:/";
+    }
+
+    @GetMapping("/articles/modify/{id}")
+    public String showModify(@PathVariable(name = "id") Long id, Model model){
+
+        try{
+            Article article = articleService.getById(id);
+
+            model.addAttribute("articleModifyForm", new ArticleModifyForm(
+                    article.getTitle(),
+                    article.getBody()
+                    )
+            );
+
+            return "usr/article/modify";
+
+        }catch (Exception e) {
+            return "redirect:/";
+        }
+
+    }
+
+    @PostMapping("/articles/modify/{id}")
+    public String doModify(@PathVariable(name = "id") Long id, ArticleModifyForm articleModifyForm){
+
+        try{
+            articleService.modifyArticle(articleModifyForm, id);
+            return "redirect:/articles/" + id;
+        }catch (Exception e) {
+            return "usr/article/modify";
+        }
+
     }
 }
