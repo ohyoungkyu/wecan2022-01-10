@@ -51,6 +51,7 @@ public class BoardController {
 
     }
 
+    //디테일
     @GetMapping("/boards/{id}")
     public  String showBoardDetail(@PathVariable(name = "id")Long id, Model model){
 
@@ -65,6 +66,7 @@ public class BoardController {
 
     }
 
+    //수정
     @GetMapping("/boards/modify")
     public String showModifyBoard(Model model){
         model.addAttribute("boardModifyForm", new BoardModifyForm());
@@ -83,4 +85,18 @@ public class BoardController {
 
         return "redirect:/";
     }
+
+    //삭제
+    @GetMapping("/boards/delete/{id}")
+    public String doDeleteBoard(@PathVariable(name = "id") Long id){
+
+        try{
+            boardService.delete(id);
+            return "adm/board/List";
+        } catch (Exception e) {
+            return "adm/board/List";
+        }
+
+    }
+
 }
