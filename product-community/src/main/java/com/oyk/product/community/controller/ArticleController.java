@@ -2,6 +2,7 @@ package com.oyk.product.community.controller;
 
 import com.oyk.product.community.domain.Article;
 import com.oyk.product.community.domain.Member;
+import com.oyk.product.community.dto.artcle.ArticleDTO;
 import com.oyk.product.community.dto.artcle.ArticleModifyForm;
 import com.oyk.product.community.dto.artcle.ArticleSaveForm;
 import com.oyk.product.community.service.ArticleService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -90,4 +92,16 @@ public class ArticleController {
         }
 
     }
+    
+    @GetMapping("/articles")
+    public String showList(Model model){
+
+        List<ArticleDTO> articleList = articleService.getArticleList();
+
+        model.addAttribute("articleList", articleList);
+
+        return "usr/article/List";
+
+    }
+
 }

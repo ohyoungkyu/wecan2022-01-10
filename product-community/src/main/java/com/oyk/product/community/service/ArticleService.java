@@ -3,12 +3,15 @@ package com.oyk.product.community.service;
 import com.oyk.product.community.dao.ArticleRepository;
 import com.oyk.product.community.domain.Article;
 import com.oyk.product.community.domain.Member;
+import com.oyk.product.community.dto.artcle.ArticleDTO;
 import com.oyk.product.community.dto.artcle.ArticleModifyForm;
 import com.oyk.product.community.dto.artcle.ArticleSaveForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -56,6 +59,23 @@ public class ArticleService {
                 articleModifyForm.getTitle(),
                 articleModifyForm.getBody()
         );
+    }
+
+    public List<ArticleDTO> getArticleList() {
+
+        List<Article> articleList = articleRepository.findAll();
+
+        List<ArticleDTO> articleDTOList = new ArrayList<>();
+
+        for (Article article: articleList) {
+
+            ArticleDTO articleDTO = new ArticleDTO(article);
+            articleDTOList.add(articleDTO);
+
+        }
+
+        return articleDTOList;
+
     }
 
 }
