@@ -88,6 +88,7 @@ public class ArticleService {
 
     }
 
+    @Transactional
     public void delete(Long id){
         Article findArticle = getById(id);
 
