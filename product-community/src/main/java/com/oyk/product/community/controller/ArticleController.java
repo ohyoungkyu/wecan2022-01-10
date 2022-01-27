@@ -1,11 +1,13 @@
 package com.oyk.product.community.controller;
 
 import com.oyk.product.community.domain.Article;
+import com.oyk.product.community.domain.Board;
 import com.oyk.product.community.domain.Member;
 import com.oyk.product.community.dto.artcle.ArticleDTO;
 import com.oyk.product.community.dto.artcle.ArticleModifyForm;
 import com.oyk.product.community.dto.artcle.ArticleSaveForm;
 import com.oyk.product.community.service.ArticleService;
+import com.oyk.product.community.service.BoardService;
 import com.oyk.product.community.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,8 +25,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ArticleController {
     private final ArticleService articleService;
-
     private final MemberService memberService;
+    private final BoardService boardService;
 
     @GetMapping("/articles/write")
     public String showWrite(Model model){
@@ -45,10 +47,13 @@ public class ArticleController {
         try {
 
             Member findMember = memberService.findByLoginId(principal.getName());
+            Board findBoard = boardService.getBoard(articleSaveForm.getBoard_id());
+
 
             articleService.save(
                     articleSaveForm,
-                    findMember
+                    findMember,
+                    findBoard
             );
         } catch(IllegalStateException e){
 

@@ -40,8 +40,17 @@ public class BoardService {
     }
 
     public Optional<Board> findById(Long id){
-        return boardRepository.findById(id);
+        return boardRepository.findById(id);}
 
+    public Board getBoard(Long id){
+
+        Optional<Board> boardOptional = boardRepository.findById(id);
+
+        boardOptional.orElseThrow(
+                () -> new NoSuchElementException("해당 게시판은 존재하지 않습니다.")
+        );
+
+        return boardOptional.get();
     }
 
     public BoardDTO getBoardDetail(Long id){

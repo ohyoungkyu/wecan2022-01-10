@@ -2,6 +2,7 @@ package com.oyk.product.community.service;
 
 import com.oyk.product.community.dao.ArticleRepository;
 import com.oyk.product.community.domain.Article;
+import com.oyk.product.community.domain.Board;
 import com.oyk.product.community.domain.Member;
 import com.oyk.product.community.dto.artcle.ArticleDTO;
 import com.oyk.product.community.dto.artcle.ArticleModifyForm;
@@ -23,7 +24,7 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
 
     @Transactional
-    public void save(ArticleSaveForm articleSaveForm, Member member){
+    public void save(ArticleSaveForm articleSaveForm, Member member, Board board){
 
         Article article = Article.createArticle(
                 articleSaveForm.getTitle(),
@@ -31,6 +32,8 @@ public class ArticleService {
         );
 
         article.setMember(member);
+        article.setBoard(board);
+
         articleRepository.save(article);
     }
 

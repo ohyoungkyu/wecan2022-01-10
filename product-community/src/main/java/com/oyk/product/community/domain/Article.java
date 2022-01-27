@@ -54,4 +54,10 @@ public class Article {
         this.member = member;
         member.getArticles().add(this);
     }
+
+    public void setBoard(Board board){
+
+        this.board = board;
+        board.getArticles().add(this);
+    }
 }

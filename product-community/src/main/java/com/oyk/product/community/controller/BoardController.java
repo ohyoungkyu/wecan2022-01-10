@@ -56,6 +56,7 @@ public class BoardController {
     public  String showBoardDetail(@PathVariable(name = "id")Long id, Model model){
 
         try {
+
             BoardDTO boardDetail = boardService.getBoardDetail(id);
             model.addAttribute("board", boardDetail);
         } catch (Exception e){
@@ -73,7 +74,8 @@ public class BoardController {
         try{
             BoardDTO board = boardService.getBoardDetail(id);
 
-            model.addAttribute("boardModifyForm", new BoardModifyForm(
+            model.addAttribute("board", new BoardModifyForm(
+                    board.getId(),
                     board.getName(),
                     board.getDetail()
             ));
@@ -85,7 +87,7 @@ public class BoardController {
 
     }
 
-    @PostMapping("/boards/modify")
+    @PostMapping("/boards/modify/{id}")
     public String doModifyBoard(@PathVariable(name = "id")Long id, BoardModifyForm boardModifyForm){
 
         try{
