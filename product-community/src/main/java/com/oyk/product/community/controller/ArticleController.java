@@ -6,6 +6,7 @@ import com.oyk.product.community.domain.Member;
 import com.oyk.product.community.dto.artcle.ArticleDTO;
 import com.oyk.product.community.dto.artcle.ArticleModifyForm;
 import com.oyk.product.community.dto.artcle.ArticleSaveForm;
+import com.oyk.product.community.dto.board.BoardDTO;
 import com.oyk.product.community.service.ArticleService;
 import com.oyk.product.community.service.BoardService;
 import com.oyk.product.community.service.MemberService;
@@ -28,17 +29,20 @@ public class ArticleController {
     private final MemberService memberService;
     private final BoardService boardService;
 
-    @GetMapping("/articles/write")
-    public String showWrite(Model model){
+    @GetMapping("/boards/{id}/articles/write")
+    public String showWrite(@PathVariable(name = "id") Long id, Model model){
 
+        BoardDTO boardDetail = boardService.getBoardDetail(id);
+
+        model.addAttribute("board", boardDetail);
         model.addAttribute("articleSaveForm", new ArticleSaveForm());
 
         return "usr/article/write";
 
     }
 
-    @PostMapping("/articles/write")
-    public String doWrite(@Validated ArticleSaveForm articleSaveForm, BindingResult bindingResult, Model model, Principal principal){
+    @PostMapping("/boards/{id}/articles/write")
+    public String doWrite(@Validated ArticleSaveForm articleSaveForm, BindingResult bindingResult, Model model, Principal principal, @PathVariable(name = "id") Long id){
 
         if( bindingResult.hasErrors() ) {
             return "usr/article/write";
@@ -63,7 +67,7 @@ public class ArticleController {
 
         }
 
-        return "redirect:/";
+        return "redirect:/articles";
     }
 
     @GetMapping("/articles/modify/{id}")

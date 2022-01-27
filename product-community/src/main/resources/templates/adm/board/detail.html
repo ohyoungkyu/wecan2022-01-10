@@ -13,22 +13,27 @@
 
       <div class="content">
 
+        <div class="">
+          <span>게시판 이름</span>
+          <span th:text="${board.name}"></span>
+        </div>
+
+        <div class="">
+          <a th:href="@{~/boards/} + ${board.id} + @{/articles/write}">
+            <span>게시물 작성</span>
+          </a>
+        </div>
+
         <table>
           <thead>
             <tr>
-                <th>게시판 이름</th>
                 <th>게시글 번호</th>
                 <th>게시글 제목</th>
                 <th>게시글 작성자</th>
             </tr>
           </thead>
-            <tr>
-              <td>
-                <span th:text="${board.name}"></span>
-              </td>
-            </tr>
-            <tbody>
 
+            <tbody>
             <tr th:each="article : ${board.articleListDTO}">
               <td>
                 <span th:text="article.id"></span>
