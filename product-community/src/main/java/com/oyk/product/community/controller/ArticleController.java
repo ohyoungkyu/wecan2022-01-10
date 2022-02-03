@@ -77,11 +77,15 @@ public class ArticleController {
 
             ArticleDTO article = articleService.getArticle(id);
 
+<<<<<<< HEAD
+            model.addAttribute("article", article);
+=======
             model.addAttribute("article", new ArticleModifyForm(
                     article.getTitle(),
                     article.getBody(),
                     article.getBoardId()
                     ));
+>>>>>>> bff0f528b6dfdcb3961575b80fab3d09f99a0731
 
             return "usr/article/modify";
 

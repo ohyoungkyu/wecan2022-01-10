@@ -1,10 +1,12 @@
 package com.oyk.product.community.controller;
 
 import com.oyk.product.community.domain.Board;
+import com.oyk.product.community.domain.Member;
 import com.oyk.product.community.dto.board.BoardDTO;
 import com.oyk.product.community.dto.board.BoardModifyForm;
 import com.oyk.product.community.dto.board.BoardSaveForm;
 import com.oyk.product.community.service.BoardService;
+import com.oyk.product.community.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -21,6 +24,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final MemberService memberService;
 
     @GetMapping("/boards/add")
     public String showAddBoard(Model model){
@@ -31,9 +35,11 @@ public class BoardController {
 
     }
     @PostMapping("/boards/add")
-    public String doAddBoard(BoardSaveForm boardSaveForm){
+    public String doAddBoard(BoardSaveForm boardSaveForm, Principal principal){
 
-        boardService.save(boardSaveForm);
+        Member findAdmin = memberService.findByLoginId(principal.getName());
+
+        boardService.save(boardSaveForm, findAdmin);
 
         return "redirect:/adm/boards";
 

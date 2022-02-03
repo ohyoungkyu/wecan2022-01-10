@@ -3,6 +3,7 @@ package com.oyk.product.community.service;
 import com.oyk.product.community.dao.BoardRepository;
 import com.oyk.product.community.domain.Article;
 import com.oyk.product.community.domain.Board;
+import com.oyk.product.community.domain.Member;
 import com.oyk.product.community.dto.artcle.ArticleListDTO;
 import com.oyk.product.community.dto.board.BoardDTO;
 import com.oyk.product.community.dto.board.BoardModifyForm;
@@ -24,11 +25,12 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public void save(BoardSaveForm boardSaveForm) {
+    public void save(BoardSaveForm boardSaveForm, Member member) {
 
         Board board = Board.createBoard(
                 boardSaveForm.getName(),
-                boardSaveForm.getDetail()
+                boardSaveForm.getDetail(),
+                member
         );
 
         boardRepository.save(board);
