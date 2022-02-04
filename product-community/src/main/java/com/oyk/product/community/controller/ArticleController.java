@@ -101,7 +101,7 @@ public class ArticleController {
             Board findBoard = boardService.getBoard(id);
 
             articleService.modifyArticle(articleModifyForm,findBoard, id);
-            return "redirect:/articles/" + id;
+            return "redirect:/boards/" + id;
         }catch (Exception e) {
             return "usr/article/modify";
         }
