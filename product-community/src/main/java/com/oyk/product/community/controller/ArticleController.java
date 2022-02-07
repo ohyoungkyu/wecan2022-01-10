@@ -28,140 +28,82 @@ public class ArticleController {
     private final ArticleService articleService;
     private final MemberService memberService;
     private final BoardService boardService;
-
     @GetMapping("/boards/{id}/articles/write")
-    public String showWrite(@PathVariable(name = "id") Long id, Model model){
-
+    public String showArticleWrite(@PathVariable(name = "id")Long id, Model model) {
         BoardDTO boardDetail = boardService.getBoardDetail(id);
-
         model.addAttribute("board", boardDetail);
         model.addAttribute("articleSaveForm", new ArticleSaveForm());
-
         return "usr/article/write";
-
     }
-
     @PostMapping("/boards/{id}/articles/write")
-    public String doWrite(@Validated ArticleSaveForm articleSaveForm, BindingResult bindingResult, Model model, Principal principal, @PathVariable(name = "id") Long id){
-
-        if( bindingResult.hasErrors() ) {
+    public String doWrite(@Validated ArticleSaveForm articleSaveForm, BindingResult bindingResult, Model model, Principal principal, @PathVariable(name = "id")Long id) {
+        if (bindingResult.hasErrors()) {
             return "usr/article/write";
         }
-
         try {
-
-            Member findMember = memberService.findByLoginId(principal.getName());
             Board findBoard = boardService.getBoard(articleSaveForm.getBoard_id());
-
-
+            Member findMember = memberService.findByLoginId(principal.getName());
             articleService.save(
                     articleSaveForm,
                     findMember,
                     findBoard
             );
-        } catch(IllegalStateException e){
-
+        } catch (IllegalStateException e) {
             model.addAttribute("err_msg", e.getMessage());
-
             return "usr/article/write";
-
         }
-
         return "redirect:/articles";
     }
-
     @GetMapping("/articles/modify/{id}")
     public String showModify(@PathVariable(name = "id") Long id, Model model){
-
-        try{
-
-            ArticleDTO article = articleService.getArticle(id);
-
-
-            model.addAttribute("article", article);
-
-            model.addAttribute("article", new ArticleModifyForm(
-                    article.getTitle(),
-                    article.getBody(),
-                    article.getBoardId()
-                    ));
-
-            return "usr/article/modify";
-
-        }catch (Exception e) {
-            return "redirect:/";
-        }
-
-    }
-
-    @PostMapping("/articles/modify/{id}")
-    public String doModify(@PathVariable(name = "id") Long id, ArticleModifyForm articleModifyForm, Principal principal){
-
-        try{
-
-            ArticleDTO findArticle = articleService.getArticle(id);
-
-            if(!findArticle.getMemberLoginId().equals(principal.getName())){
-                throw new IllegalStateException("잘못된 요청입니다.");
-            }
-
-            Board findBoard = boardService.getBoard(id);
-
-            articleService.modifyArticle(articleModifyForm,findBoard, id);
-            return "redirect:/boards/" + id;
-        }catch (Exception e) {
-            return "redirect:/";
-        }
-
-    }
-
-    @GetMapping("articles/delete/{id}")
-    public String deleteArticle(@PathVariable(name = "id") Long id, Principal principal){
-
         try {
-
             ArticleDTO article = articleService.getArticle(id);
+            model.addAttribute("article", article);
+            return "usr/article/modify";
+        }catch (Exception e){
+            return "redirect:/";
+        }
+    }
+    @PostMapping("/articles/modify/{id}")
+    public String doModify(@PathVariable(name = "id") Long id, ArticleModifyForm articleModifyForm){
+        try{
+            Board findBoard = boardService.getBoard(articleModifyForm.getBoard_id());
 
+            articleService.modifyArticle(articleModifyForm, findBoard, id);
+            return "redirect:/boards/"+ id;
+        }catch (Exception e){
+            return "usr/article/modify";
+        }
+    }
+    @GetMapping("/articles")
+    public String showList(Model model) {
+        List<ArticleDTO> articleList = articleService.getList();
+        ArticleDTO articleDTO = articleList.get(0);
+        model.addAttribute("boardName", articleDTO.getBoardName());
+        model.addAttribute("articleList", articleList);
+        return "usr/article/list";
+    }
+    @GetMapping("/articles/delete/{id}")
+    public String deleteArticle(@PathVariable(name = "id") Long id, Principal principal){
+        try {
+            ArticleDTO article = articleService.getArticle(id);
             if(!article.getMemberLoginId().equals(principal.getName())){
                 return "redirect:/boards/" + id;
             }
             articleService.delete(id);
-
             return "redirect:/boards";
-
-        }catch (Exception e) {
+        }catch (Exception e){
             return "redirect:/";
         }
-
     }
-
-    @GetMapping("/articles")
-    public String showList(Model model){
-
-
-        List<ArticleDTO> articleList = articleService.getArticleList();
-
-        ArticleDTO articleDTO = articleList.get(0);
-
-        model.addAttribute("boardName",articleDTO.getBoardName());
-        model.addAttribute("articleList", articleList);
-
-        return "usr/article/List";
-
-    }
-
     @GetMapping("/articles/{id}")
     public String showDetail(@PathVariable(name = "id") Long id, Model model){
-
         try {
             ArticleDTO findArticle = articleService.getArticle(id);
-            model.addAttribute("article",findArticle);
-
+            model.addAttribute("article", findArticle);
             return "usr/article/detail";
-        }catch(Exception e){
+        }catch (Exception e){
             return "redirect:/";
         }
-
     }
-
 }
