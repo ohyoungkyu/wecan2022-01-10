@@ -72,6 +72,19 @@ public class MemberService implements UserDetailsService {
 
         memberRepository.save(member);
     }
+
+    public Member findById(Long id) {
+
+        Optional<Member> memberOptional = memberRepository.findById(id);
+
+        memberOptional.orElseThrow(
+                () -> new IllegalStateException("존재하지 않는 회원입니다.")
+        );
+
+        return memberOptional.get();
+
+    }
+
     //로그인 회원아이디를 찾는대 존재않는 회원이면 아래와 같은 로직
     public Member findByLoginId(String loginId) throws IllegalStateException{
 
