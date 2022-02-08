@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="form-item mb-4">
-                            <input class="border rounded p-1 rounded bg-gray-50" name="email" type="email" th:field="${email}" th:errorclass="field-error" placeholder="이메일">
+                            <input class="border rounded p-1 rounded bg-gray-50" name="email" type="email" th:field="*{email}" th:errorclass="field-error" placeholder="이메일">
                             <span th:errors="*{email}"></span>
                         </div>
                     </div>
