@@ -6,6 +6,7 @@ import com.oyk.product.community.domain.Board;
 import com.oyk.product.community.domain.Member;
 import com.oyk.product.community.dto.artcle.ArticleListDTO;
 import com.oyk.product.community.dto.board.BoardDTO;
+import com.oyk.product.community.dto.board.BoardListDTO;
 import com.oyk.product.community.dto.board.BoardModifyForm;
 import com.oyk.product.community.dto.board.BoardSaveForm;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,23 @@ import java.util.Optional;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+
+    public List<BoardListDTO> getBoardsList(){
+
+        List<BoardListDTO> boardListDTOList = new ArrayList<>();
+
+        List<Board> boardList = boardRepository.findAll();
+
+        for(Board board : boardList) {
+
+            BoardListDTO boardListDTO = new BoardListDTO(board);
+            boardListDTOList.add(boardListDTO);
+
+        }
+
+        return boardListDTOList;
+
+    }
 
     @Transactional
     public void save(BoardSaveForm boardSaveForm, Member member) {
