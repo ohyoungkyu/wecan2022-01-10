@@ -15,6 +15,7 @@ public class AdmController {
 
     @GetMapping("/page")
     public String showAdminPage(){
+
         return "adm/general/main";
     }
 
