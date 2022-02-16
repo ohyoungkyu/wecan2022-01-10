@@ -2,9 +2,12 @@ package com.oyk.product.community.service;
 
 import com.oyk.product.community.config.Role;
 import com.oyk.product.community.dao.MemberRepository;
+import com.oyk.product.community.domain.Article;
 import com.oyk.product.community.domain.Member;
+import com.oyk.product.community.dto.artcle.ArticleDTO;
 import com.oyk.product.community.dto.member.MemberModifyForm;
 import com.oyk.product.community.dto.member.MemberSaveForm;
+import com.oyk.product.community.dto.member.MyPageDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,6 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
     private final MemberRepository memberRepository;
+    private final ArticleService articleService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -95,6 +101,26 @@ public class MemberService implements UserDetailsService {
         );
 
         return memberOptional.get();
+
+    }
+
+    public MyPageDTO getMyArticles(String loginId){
+
+        List<ArticleDTO> articleDTOList = new ArrayList<>();
+
+        Member findMember = findByLoginId(loginId);
+
+        List<Article> articles = findMember.getArticles();
+
+        for( Article article : articles) {
+
+            ArticleDTO findArticle = articleService.getArticle(article.getId());
+
+            articleDTOList.add(findArticle);
+
+        }
+
+        return new MyPageDTO(findMember, articleDTOList);
 
     }
 
