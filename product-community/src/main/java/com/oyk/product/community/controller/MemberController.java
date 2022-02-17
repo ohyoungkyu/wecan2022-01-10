@@ -1,18 +1,18 @@
 package com.oyk.product.community.controller;
 
 import com.oyk.product.community.domain.Member;
+import com.oyk.product.community.dto.member.CheckStatus;
 import com.oyk.product.community.dto.member.MemberLoginForm;
 import com.oyk.product.community.dto.member.MemberModifyForm;
 import com.oyk.product.community.dto.member.MemberSaveForm;
 import com.oyk.product.community.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Check;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -22,6 +22,18 @@ import java.security.Principal;
 public class MemberController {
 
     private final MemberService memberService;
+
+    @RequestMapping("/members/check/id")
+    @ResponseBody
+    public CheckStatus checkDuple(@RequestParam String loginId){
+
+        boolean isExists = memberService.isDupleMember(loginId);
+
+        CheckStatus checkStatus = new CheckStatus(isExists);
+
+        return checkStatus;
+
+    }
 
     @GetMapping("/members/join")
     public String showJoin(Model model) {

@@ -140,4 +140,10 @@ public class MemberService implements UserDetailsService {
         return findMember.getId();
 
     }
+
+    public boolean isDupleMember(String loginId){
+
+        return memberRepository.existsByLoginId(loginId);
+
+    }
 }

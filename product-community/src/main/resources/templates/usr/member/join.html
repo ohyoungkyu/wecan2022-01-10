@@ -16,6 +16,7 @@
 
         /*]]*/
     </script>
+    <script src="/js/join.js"></script>
 
 </head>
 <body>
@@ -35,8 +36,9 @@
                 <div class="flex justify-center">
                     <div class="flex-col">
                         <div class="form-item mb-4">
-                            <input class="border rounded p-1 rounded bg-gray-50" name="loginId" type="text" placeholder="아이디" autocomplete="off" th:field="*{loginId}" th:errorclass="field-error">
+                            <input id="loginId" class="border rounded p-1 rounded bg-gray-50" name="loginId" type="text" placeholder="아이디" autocomplete="off" th:field="*{loginId}" th:errorclass="field-error">
                             <span th:errors="*{loginId}"></span>
+                            <button type="button" onClick="checkDupleLoginId()">중복확인</button>
                         </div>
 
                         <div class="form-item mb-4">
