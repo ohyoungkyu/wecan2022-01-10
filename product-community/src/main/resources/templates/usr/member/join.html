@@ -58,8 +58,9 @@
                         </div>
 
                         <div class="form-item mb-4">
-                            <input class="border rounded p-1 rounded bg-gray-50" name="email" type="email" placeholder="이메일" autocomplete="off" th:field="*{email}" th:errorclass="field-error">
+                            <input id="email" class="border rounded p-1 rounded bg-gray-50" name="email" type="email" placeholder="이메일" autocomplete="off" th:field="*{email}" th:errorclass="field-error" onsubmit="return checkStatus()">
                             <span th:errors="*{email}"></span>
+                            <button type="button" onClick="checkDupleEmail()">중복확인</button>
                         </div>
                     </div>
                 </div>

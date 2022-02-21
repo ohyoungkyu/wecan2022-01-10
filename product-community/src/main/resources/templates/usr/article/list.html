@@ -9,13 +9,13 @@
 <body>
     <div layout:fragment="content">
 
-        <div class="">
+        <div class="container flex justify-center mx-auto">
             <span>게시판 이름 :</span>
             <span th:text="${boardName}"></span>
         </div>
 
         <div class="container">
-
+            <div class="join-title text-2xl flex justify-center mb-12">
             <table>
 
                 <thead>
@@ -43,7 +43,7 @@
                 </tbody>
 
             </table>
-
+            </div>
         </div>
 
     </div>

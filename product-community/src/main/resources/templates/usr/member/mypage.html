@@ -10,9 +10,10 @@
 <body>
     <div layout:fragment="content">
 
+        <div class="container flex justify-center mx-auto">
         <div class="">
 
-            <div class="">
+            <div class="join-title text-2xl flex justify-center mb-12">
                 <span>회원 닉네임</span>
                 <span th:text="${memberInfo.nickname}"></span>
             </div>
@@ -21,11 +22,11 @@
 
                 <thead>
                     <tr>
-                        <th>게시글 번호</th>
-                        <th>게시글 제목</th>
-                        <th>게시판 이름</th>
-                        <th>게시글 작성일</th>
-                        <th>게시글 수정일</th>
+                        <th >게시글 번호</th>
+                        <th >게시글 제목</th>
+                        <th >게시판 이름</th>
+                        <th >게시글 작성일</th>
+                        <th >게시글 수정일</th>
                     </tr>
                 </thead>
 
@@ -53,7 +54,7 @@
             </table>
 
         </div>
-
+        </div>
     </div>
 
 </body>
