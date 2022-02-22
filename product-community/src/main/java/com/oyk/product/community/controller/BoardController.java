@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class BoardController {
 
     //디테일
     @GetMapping("/boards/{id}")
-    public  String showBoardDetail(@PathVariable(name = "id")Long id, Model model, @RequestParam(name="page", defaultValue = "1") int page){
+    public  String showBoardDetail(@PathVariable(name = "id")Long id, Model model, @RequestParam(name="page", defaultValue = "1") int page, @RequestParam(name="searchKeyword") String searchKeyword){
 
         int size = 10;
 
@@ -49,6 +50,20 @@ public class BoardController {
             BoardDTO boardDetail = boardService.getBoardDetail(id);
 
             List<ArticleListDTO> articleListDTO = boardDetail.getArticleListDTO();
+
+            List<ArticleListDTO> store = new ArrayList<>();
+
+            for( ArticleListDTO listDTO : articleListDTO) {
+
+                if( listDTO.getTitle().contains(searchKeyword) ){
+                    store.add(listDTO);
+                }
+
+            }
+
+            if( store.size() != 0 ) {
+                articleListDTO = store;
+            }
 
             Collections.reverse(articleListDTO);
 
@@ -69,6 +84,12 @@ public class BoardController {
 
             // 페이지 자르기
             List<ArticleListDTO> articlePage = articleListDTO.subList(startIndex, lastIndex);
+
+            if( !searchKeyword.equals("") && store.size() == 0 ) {
+
+                articlePage = store;
+
+            }
 
             model.addAttribute("board", boardDetail);
             model.addAttribute("articles", articlePage);
