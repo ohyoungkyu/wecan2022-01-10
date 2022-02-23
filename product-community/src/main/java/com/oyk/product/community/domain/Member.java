@@ -70,6 +70,10 @@ public class Member implements UserDetails {
 
     }
 
+    public void changePw( String pw) {
+        this.loginPw = pw;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
