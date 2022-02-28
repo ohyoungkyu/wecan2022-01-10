@@ -168,4 +168,11 @@ public class MemberService implements UserDetailsService {
 
     }
 
+    public void deleteMember(String loginId) {
+
+        Member findMember = findByLoginId(loginId);
+
+        memberRepository.delete(findMember);
+
+    }
 }

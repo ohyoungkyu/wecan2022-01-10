@@ -59,6 +59,19 @@ public class MemberController {
 
     }
 
+    @DeleteMapping("/members")
+    @RequestBody
+    public boolean doDelete(@RequestBody String loginId, Principal principal){
+
+        if( !loginId.equals(principal.getName()) ){
+            return false;
+        }
+
+        memberService.deleteMember(loginId);
+
+        return true;
+    }
+
     @GetMapping("/members/join")
     public String showJoin(Model model) {
 
