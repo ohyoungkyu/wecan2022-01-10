@@ -8,3 +8,7 @@
 body{
     font-family : 'SBAggroB';
 }
+
+.content-container{
+    min-height: 83vh;
+}
