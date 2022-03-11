@@ -1,13 +1,11 @@
 package com.oyk.product.community.service;
 
 import com.oyk.product.community.config.Role;
+import com.oyk.product.community.dao.ArticleRepository;
 import com.oyk.product.community.dao.BoardRepository;
 import com.oyk.product.community.dao.MemberRepository;
 import com.oyk.product.community.domain.Board;
-import com.oyk.product.community.dto.adm.AdmBoardCountDto;
-import com.oyk.product.community.dto.adm.AdmBoardNameDto;
-import com.oyk.product.community.dto.adm.BoardStateDto;
-import com.oyk.product.community.dto.adm.MemberStateDto;
+import com.oyk.product.community.dto.adm.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +20,7 @@ public class AdmService {
 
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository;
+    private final ArticleRepository articleRepository;
 
     public MemberStateDto getMemberStateDto(){
 
@@ -62,6 +61,14 @@ public class AdmService {
                 latestBoardList,
                 boardCountList
         );
+    }
+
+    public ArticleStateDto getArticleStateDto(){
+
+        return new ArticleStateDto(
+                articleRepository.count()
+        );
+
     }
 
 }
