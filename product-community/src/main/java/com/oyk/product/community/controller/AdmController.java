@@ -18,6 +18,7 @@ public class AdmController {
     public String showAdminPage(Model model ){
 
         model.addAttribute("memberStateData", admService.getMemberStateDto());
+        model.addAttribute("boardStateData", admService.getBoardStateDto());
 
         return "adm/general/main";
     }
